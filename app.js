@@ -26,11 +26,11 @@ app.use('/api/auth', require('./routes/users'))
 // app.use('/user', authMiddleware.ensureLogginIn, require('./routes/posts'))
   // app.use('/api/posts', require('./routes/comments'))
 
-app.use('*', function(req, res, next) {
-  res.sendFile('index.html', {
-    root: path.join(__dirname, 'public')
-  })
-})
+// app.use('*', function(req, res, next) {
+//   res.sendFile('index.html', {
+//     root: path.join(__dirname, 'public')
+//   })
+// })
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found')
