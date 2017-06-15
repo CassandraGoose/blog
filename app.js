@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var cors = require('cors')
 const app = express()
-require('dot-env').config()
+require('dotenv').config()
 
 var authMiddleware = require('./routes/middleware')
 
