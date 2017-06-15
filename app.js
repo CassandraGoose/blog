@@ -4,7 +4,6 @@ const bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var cors = require('cors')
 const app = express()
-require('dotenv').config()
 
 var authMiddleware = require('./routes/middleware')
 
@@ -18,7 +17,7 @@ app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, '/../', 'node_modules')))
 
-app.use(cookieParser(process.env.COOKIE_SECRET))
+// app.use(cookieParser(process.env.COOKIE_SECRET))
 
 app.use(cors())
 
