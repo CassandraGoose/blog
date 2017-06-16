@@ -18,13 +18,13 @@ function validID(req, res, next) {
   next(new Error('Invalid ID'));
 }
 
-router.get('/users', (req, res) => {
+router.get('/people', (req, res) => {
   queries.getAll().then(users => {
     res.json(users)
   })
 })
 
-router.post('/users', (req, res, next) => {
+router.post('/people', (req, res, next) => {
   queries.create(req.body).then(users => {
     res.json(users[0])
   })

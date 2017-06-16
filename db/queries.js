@@ -2,18 +2,18 @@ const knex = require('./knex'); // the connection!
 
 module.exports = {
   getAll() {
-    return knex('user');
+    return knex('people');
   },
   getOne(id) {
-    return knex('user').where('id', id).first();
+    return knex('people').where('id', id).first();
   },
-  create(user) {
-    return knex('user').insert(user, '*');
+  create(person) {
+    return knex('people').insert(person, '*');
   },
-  update(id, user) {
-    return knex('user').where('id', id).update(user, '*');
+  update(id, person) {
+    return knex('people').where('id', id).update(person, '*');
   },
   delete(id) {
-    return knex('user').where('id', id).del();
+    return knex('people').where('id', id).del();
   }
 }
