@@ -5,7 +5,7 @@ module.exports = {
     return knex('people');
   },
   getAllPosts() {
-    return knex('people');
+    return knex('post');
   },
   getOne(id) {
     return knex('people').where('id', id).first();
