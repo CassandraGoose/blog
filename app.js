@@ -24,6 +24,7 @@ app.use(cors())
 
 app.use('/api', require('./routes/people'))
 app.use('/api', require('./routes/posts'))
+app.use('/api', require('./routes/comments'))
 
 // app.use('/user', authMiddleware.ensureLogginIn, require('./routes/posts'))
   // app.use('/api/posts', require('./routes/comments'))

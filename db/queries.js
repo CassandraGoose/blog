@@ -7,14 +7,20 @@ module.exports = {
   getAllPosts() {
     return knex('post');
   },
+  getAllComments() {
+    return knex('comment')
+  },
   getOne(id) {
     return knex('people').where('id', id).first();
   },
   create(person) {
     return knex('people').insert(person, '*');
   },
-  createPos(post) {
+  createPost(post) {
     return knex('people').insert(person, '*');
+  },
+  createComment(comment) {
+    return knex('comment').insert(comment, '*');
   },
   update(id, person) {
     return knex('people').where('id', id).update(person, '*');
