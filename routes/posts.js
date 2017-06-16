@@ -12,8 +12,14 @@ function validID(req, res, next) {
 
 router.get('/posts', (req, res) => {
   queries.getAllPosts().then(posts => {
-    res.json(posts)
+    for(var i = 0; i < posts.length; i++){
+      queries.getPersonImage(posts[i].people_id).then(users => {
+        posts[i]["image_url"] = users.photo_url
+      })
+    }
+
   })
+  res.json(posts)
 })
 
 router.post('posts', (req, res, next) => {

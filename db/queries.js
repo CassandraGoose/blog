@@ -8,7 +8,10 @@ module.exports = {
     return knex('post');
   },
   getAllComments() {
-    return knex('comment')
+    return knex('comment');
+  },
+  getPersonImage(people_id) {
+    return knex('people').where('id', people_id);
   },
   getOne(id) {
     return knex('people').where('id', id).first();
