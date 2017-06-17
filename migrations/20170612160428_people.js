@@ -7,6 +7,15 @@ exports.up = function(knex, Promise) {
     table.string('email').notNullable()
     table.string('password').notNullable()
     table.string('photo_url')
+    table.string('friend1')
+    table.string('friend2')
+    table.string('friend3')
+    table.string('friend4')
+    table.string('friend5')
+    table.string('friend6')
+    table.string('friend7')
+    table.string('friend8')
+    table.string('friend9')
   })
 };
 
