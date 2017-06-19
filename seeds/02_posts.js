@@ -21,7 +21,7 @@ exports.seed = function(knex, Promise) {
           loves: 1,
           hates: 55,
           date: new Date(2017, 12, 17),
-          people_id: 1
+          people_id: 2
         },
         {
           id: 3,
@@ -30,7 +30,7 @@ exports.seed = function(knex, Promise) {
           loves: 70,
           hates: 2,
           date: new Date(1991, 12, 17),
-          people_id: 1
+          people_id: 3
         }
       ]);
     });
