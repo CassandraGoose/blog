@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
     table.string('username').notNullable()
     table.string('email').notNullable()
     table.string('password').notNullable()
+    table.string('tagline')
     table.string('photo_url')
     table.string('friend1')
     table.string('friend2')
