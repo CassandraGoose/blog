@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
       table.text('text')
       table.integer('loves')
       table.integer('hates')
-      table.date('date')
+      table.dateTime('created_at').defaultTo(knex.fn.now())
       table.integer('people_id').unsigned().references('id').inTable('people').onDelete('CASCADE');
     })
 };

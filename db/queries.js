@@ -20,7 +20,7 @@ module.exports = {
     return knex('people').insert(person, '*');
   },
   createPost(post) {
-    return knex('people').insert(person, '*');
+    return knex('post').insert(post, '*');
   },
   createComment(comment) {
     return knex('comment').insert(comment, '*');

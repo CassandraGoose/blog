@@ -20,7 +20,7 @@ router.get('/posts', (req, res) => {
     })
 })
 
-router.post('posts', (req, res, next) => {
+router.post('/posts', (req, res, next) => {
   queries.createPost(req.body).then(posts => {
     res.json(posts[0])
   })
