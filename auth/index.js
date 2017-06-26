@@ -2,45 +2,47 @@ const express = require('express')
 const router = express.Router()
 const knex = require('../db')
 const bcrypt = require('bcryptjs')
+const queries = require('../db/queries')
+
 const saltRounds = 10
 
-router.get('/api/signup', (req, res) => {
+router.get('/signup', (req, res) => {
   res.json({
     message: 'working'
   })
 })
 
 function validPerson(user) {
-  const validEmail = typeof user.email === 'string' &&
-    user.email.trim() != '';
+  const validEmail = typeof user.email === 'string' && user.email.trim() != ''
   const validPassword = typeof user.password === 'string' &&
     user.password.trim() != '' &&
-    user.password.trim().length >= 6;
+    user.password.trim().length >= 6
   return validEmail && validPassword
 }
 
-router.post('/api/signup', (req, res, next) => {
+router.post('/signup', (req, res, next) => {
   if (validPerson(req.body)) {
-    Person.getOneByEmail(req.body.email)
+    queries.getOneByEmail(req.body.email)
       .then(person => {
-        console.log('person', person);
+        console.log('person', person)
         if (!person) {
           bcrypt.hash(req.body.password, saltRounds)
             .then((hash) => {
               const person = {
                 username: req.body.username,
                 email: req.body.email,
-                password: hash
+                password: hash,
+                tagline: req.body.tagline,
+                photo_url: req.body.photo_url
               }
 
-              Person.create()
+              queries.create(person)
                 .then(id => {
                   res.json({
                     id,
                     message: 'signup route working'
                   })
                 })
-                //redirect
             })
         } else {
           next(new Error('Email in already in use'))
@@ -50,3 +52,5 @@ router.post('/api/signup', (req, res, next) => {
     next(new Error('Invalid user'))
   }
 })
+
+module.exports = router;

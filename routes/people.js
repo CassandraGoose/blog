@@ -16,11 +16,8 @@ function validUserPost(user) {
 }
 
 function validUser(user) {
-  const validEmail = typeof user.email == 'string' &&
-    user.email.trim() != '';
-  const validPassword = typeof user.password == 'string' &&
-    user.password.trim() != '' &&
-    user.password.trim().length >= 6;
+  const validEmail = typeof user.email == 'string' && user.email.trim() != '';
+  const validPassword = typeof user.password == 'string' && user.password.trim() != ''
   return validEmail && validPassword;
 }
 
@@ -70,7 +67,7 @@ router.post('/signup', (req, res, next) => {
                       token,
                       message: 'ok'
                     })
-                  });
+                  })
                 })
             })
         } else {
@@ -93,11 +90,6 @@ router.post('/login', (req, res, next) => {
           bcrypt.compare(req.body.password, user.password)
             .then((result) => {
               if (result) {
-                // setUserIdCookie(req, res, user.id)
-                // res.json({
-                //   id: user.id,
-                //   message: 'Logged in!'
-                // });
                 jwt.sign({
                   id: user.id
                 }, process.env.TOKEN_SECRET, { expiresIn: '1h' }, (err, token) => {
@@ -108,7 +100,7 @@ router.post('/login', (req, res, next) => {
                     token,
                     message: 'ok'
                   })
-                });
+                })
               } else {
                 next(new Error('Invalid login'))
               }

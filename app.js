@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser')
 var cors = require('cors')
 const app = express()
 
-var authMiddleware = require('./routes/middleware')
+var authMiddleware = require('./auth/middleware.js')
 
 if (process.env.NODE_ENV !== 'test') {
   const logger = require('morgan')
@@ -22,18 +22,15 @@ app.use(express.static(path.join(__dirname, '/../', 'node_modules')))
 app.use(cors())
 
 
-app.use('/api', require('./routes/people'))
-app.use('/api', require('./routes/posts'))
-app.use('/api', require('./routes/comments'))
-app.use('/api', require('./routes/friends'))
-var user = require('./routes/user');
-var auth = require('./auth/index')
-
-app.use('/auth', require('/auth/signup'))
-app.use('/user', authMiddleware.ensureLoggedIn, '/routes/middleware');
+app.use('/api/auth', require('./routes/people'))
+app.use('/api/posts', require('./routes/posts'))
+app.use('/api/comments', require('./routes/comments'))
+app.use('/api/friends', require('./routes/friends'))
+app.use('/auth', require('./auth/index'))
+app.use('/user', authMiddleware.ensureLogginIn, require('./routes/posts'));
 
 // app.use('/user', authMiddleware.ensureLogginIn, require('./routes/posts'))
-  // app.use('/api/posts', require('./routes/comments'))
+// app.use('/api/posts', require('./routes/comments'))
 
 // app.use('*', function(req, res, next) {
 //   res.sendFile('index.html', {
