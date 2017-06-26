@@ -20,7 +20,9 @@ module.exports = {
     return knex('people').where('email', email).first()
   },
   create(person) {
-    return knex('people').insert(person, '*')
+    return knex('people').insert(person, 'id').then(ids => {
+      return ids[0]
+    })
   },
   createPost(post) {
     return knex('post').insert(post, '*');

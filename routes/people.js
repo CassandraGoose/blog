@@ -22,17 +22,17 @@ function validUser(user) {
 }
 
 function validID(req, res, next) {
-  if(!isNaN(req.params.id)) return next();
+  if (!isNaN(req.params.id)) return next();
   next(new Error('Invalid ID'));
 }
 
-router.get('/people', (req, res) => {
+router.get('/', (req, res) => {
   queries.getAll().then(users => {
     res.json(users)
   })
 })
 
-router.post('/people', (req, res, next) => {
+router.post('/', (req, res, next) => {
   queries.create(req.body).then(users => {
     res.json(users[0])
   })
@@ -43,7 +43,6 @@ router.post('/signup', (req, res, next) => {
     User
       .getOneByEmail(req.body.email)
       .then(user => {
-        console.log('user', user);
 
         if (!user) {
 
@@ -59,9 +58,9 @@ router.post('/signup', (req, res, next) => {
                   // setUserIdCookie(req, res, id);
                   jwt.sign({
                     id
-                  }, process.env.TOKEN_SECRET, { expiresIn: '1h' }, (err, token) => {
-                    console.log('err', err);
-                    console.log('token', token);
+                  }, process.env.TOKEN_SECRET, {
+                    expiresIn: '1h'
+                  }, (err, token) => {
                     res.json({
                       id,
                       token,
@@ -92,9 +91,9 @@ router.post('/login', (req, res, next) => {
               if (result) {
                 jwt.sign({
                   id: user.id
-                }, process.env.TOKEN_SECRET, { expiresIn: '1h' }, (err, token) => {
-                  console.log('err', err);
-                  console.log('token', token);
+                }, process.env.TOKEN_SECRET, {
+                  expiresIn: '1h'
+                }, (err, token) => {
                   res.json({
                     id: user.id,
                     token,

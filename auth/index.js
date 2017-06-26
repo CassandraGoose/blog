@@ -3,7 +3,7 @@ const router = express.Router()
 const knex = require('../db')
 const bcrypt = require('bcryptjs')
 const queries = require('../db/queries')
-
+const jwt = require('jsonwebtoken')
 const saltRounds = 10
 
 router.get('/signup', (req, res) => {
@@ -35,12 +35,20 @@ router.post('/signup', (req, res, next) => {
                 tagline: req.body.tagline,
                 photo_url: req.body.photo_url
               }
-
               queries.create(person)
                 .then(id => {
-                  res.json({
-                    id,
-                    message: 'signup route working'
+                  console.log('person', id);
+                  jwt.sign({
+                    id
+                  }, process.env.TOKEN_SECRET, {
+                    expiresIn: '1h'
+                  }, (err, token) => {
+                    console.log(token);
+                    res.json({
+                      id,
+                      token,
+                      message: 'ok'
+                    })
                   })
                 })
             })

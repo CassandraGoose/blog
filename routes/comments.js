@@ -10,13 +10,13 @@ function validID(req, res, next) {
   next(new Error('Invalid ID'));
 }
 
-router.get('/comments', (req, res) => {
+router.get('/', (req, res) => {
   queries.getAllComments().then(users => {
     res.json(users)
   })
 })
 
-router.post('/comments', (req, res, next) => {
+router.post('/', (req, res, next) => {
   queries.createComment(req.body).then(users => {
     res.json(users[0])
   })
