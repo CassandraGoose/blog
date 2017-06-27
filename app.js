@@ -22,7 +22,6 @@ app.use(express.static(path.join(__dirname, '/../', 'node_modules')))
 app.use(cors())
 
 
-app.use('/api/auth', require('./routes/people'))
 app.use('/api/posts', require('./routes/posts'))
 app.use('/api/comments', require('./routes/comments'))
 app.use('/api/friends', require('./routes/friends'))

@@ -20,6 +20,12 @@ function validPerson(user) {
   return validEmail && validPassword
 }
 
+function validUsername(user){
+  const validUsername = typeof user.username === 'string' && user.username.trim() != ''
+  const validPassword = typeof user.password === 'string' && user.password.trim() != ''
+  return validUsername && validPassword
+}
+
 router.post('/signup', (req, res, next) => {
   if (validPerson(req.body)) {
     queries.getOneByEmail(req.body.email)
@@ -58,6 +64,38 @@ router.post('/signup', (req, res, next) => {
       })
   } else {
     next(new Error('Invalid user'))
+  }
+})
+
+
+router.post('/login', (req, res, next) => {
+  if (validUsername(req.body)) {
+    queries.getOneByUsername(req.body.username)
+      .then(person => {
+        if (person) {
+          bcrypt.compare(req.body.password, person.password)
+            .then((id) => {
+              if (id) {
+                jwt.sign({
+                  id
+                }, process.env.TOKEN_SECRET, { expiresIn: '1h' }, (err, token) => {
+                  res.json({
+                    id,
+                    token,
+                    message: 'ok'
+                  })
+                  console.log(token);
+                })
+              } else {
+                next(new Error('Invalid login'))
+              }
+            })
+        } else {
+          next(new Error('Invalid login'))
+        }
+      })
+  } else {
+    next(new Error('Invalid login'))
   }
 })
 
