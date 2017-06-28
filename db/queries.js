@@ -16,6 +16,10 @@ module.exports = {
   getOne(id) {
     return knex('people').where('id', id).first();
   },
+  getById(id) {
+    console.log('queries here');
+    return knex('post').where('people_id', id)
+  },
   getOneByEmail(email) {
     return knex('people').where('email', email).first()
   },

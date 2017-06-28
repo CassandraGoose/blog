@@ -80,11 +80,13 @@ router.post('/login', (req, res, next) => {
                   id
                 }, process.env.TOKEN_SECRET, { expiresIn: '1h' }, (err, token) => {
                   res.json({
+                    person,
                     id,
                     token,
                     message: 'ok'
                   })
                   console.log(token);
+                  console.log(person);
                 })
               } else {
                 next(new Error('Invalid login'))
