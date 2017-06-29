@@ -20,7 +20,7 @@ function validPerson(user) {
   return validEmail && validPassword
 }
 
-function validUsername(user){
+function validUsername(user) {
   const validUsername = typeof user.username === 'string' && user.username.trim() != ''
   const validPassword = typeof user.password === 'string' && user.password.trim() != ''
   return validUsername && validPassword
@@ -30,7 +30,6 @@ router.post('/signup', (req, res, next) => {
   if (validPerson(req.body)) {
     queries.getOneByEmail(req.body.email)
       .then(person => {
-        console.log('person', person)
         if (!person) {
           bcrypt.hash(req.body.password, saltRounds)
             .then((hash) => {
@@ -43,13 +42,11 @@ router.post('/signup', (req, res, next) => {
               }
               queries.create(person)
                 .then(id => {
-                  console.log('person', id);
                   jwt.sign({
                     id
                   }, process.env.TOKEN_SECRET, {
                     expiresIn: '1h'
                   }, (err, token) => {
-                    console.log(token);
                     res.json({
                       id,
                       token,
@@ -78,15 +75,15 @@ router.post('/login', (req, res, next) => {
               if (id) {
                 jwt.sign({
                   id
-                }, process.env.TOKEN_SECRET, { expiresIn: '1h' }, (err, token) => {
+                }, process.env.TOKEN_SECRET, {
+                  expiresIn: '1h'
+                }, (err, token) => {
                   res.json({
                     person,
                     id,
                     token,
                     message: 'ok'
                   })
-                  console.log(token);
-                  console.log(person);
                 })
               } else {
                 next(new Error('Invalid login'))

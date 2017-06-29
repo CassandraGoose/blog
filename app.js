@@ -17,25 +17,16 @@ app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, '/../', 'node_modules')))
 
-// app.use(cookieParser(process.env.COOKIE_SECRET))
-
 app.use(cors())
 
+app.use(authMiddleware.checkTokenSetUser);
 
-app.use('/api/posts', require('./routes/posts'))
+
+app.use('/api/posts', authMiddleware.ensureLoggedIn, require('./routes/posts'))
 app.use('/api/comments', require('./routes/comments'))
 app.use('/api/friends', require('./routes/friends'))
 app.use('/auth', require('./auth/index'))
-app.use('/user', authMiddleware.ensureLogginIn, require('./routes/posts'));
 
-// app.use('/user', authMiddleware.ensureLogginIn, require('./routes/posts'))
-// app.use('/api/posts', require('./routes/comments'))
-
-// app.use('*', function(req, res, next) {
-//   res.sendFile('index.html', {
-//     root: path.join(__dirname, 'public')
-//   })
-// })
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found')

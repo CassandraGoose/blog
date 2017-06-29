@@ -1,23 +1,30 @@
-const express = require('express')
-const router = express.Router()
-const knex = require('../db')
-const bcrypt = require('bcryptjs')
-const saltRounds = 10
-const jwt = require('jsonwebtoken')
-const queries = require('../db/queries')
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-function ensureLogginIn(req, res, next) {
-  const authHeader = req.get('Authorization')
-  console.log(authHeader)
-  const token = authHeader.split(' ')[1]
-  if (token) {
+function checkTokenSetUser(req, res, next) {
+  const tokenHeader = req.get('Authorization')
+  console.log('auth header', tokenHeader)
+  if (tokenHeader) {
+    let token = tokenHeader.split(' ')[1]
+    console.log('token!!!!!', token);
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-      console.log('here', err, decoded)
-      if (!err) return next()
-      res.status(401)
-      next(new Error('Invalid token'))
-    })
+      if (err) {
+        next()
+      } else {
+        console.log('decoded', decoded);
+        req.person = decoded;
+        next()
+      }
+    });
+  } else {
+    next()
+  }
+}
+
+function ensureLoggedIn(req, res, next) {
+  console.log('req.person', req.person)
+  if (req.person) {
+    next()
   } else {
     res.status(401)
     next(new Error('Un-Authorized'))
@@ -25,24 +32,17 @@ function ensureLogginIn(req, res, next) {
 }
 
 function allowAccess(req, res, next) {
-  const authHeader = req.get('Authorization')
-  console.log(authHeader)
-  const token = authHeader.split(' ')[1]
-  if (token) {
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-      console.log('here', err, decoded)
-      if (!err && req.params.id == decoded.id) return next()
-      res.status(401)
-      next(new Error('Un-Authorized'))
-    })
+  console.log(req.person.id, req.params.id)
+  if (req.person.id == req.params.id) {
+    next()
   } else {
     res.status(401)
     next(new Error('Un-Authorized'))
   }
 }
 
-
 module.exports = {
-  ensureLogginIn,
-  allowAccess
+  ensureLoggedIn,
+  allowAccess,
+  checkTokenSetUser
 }
