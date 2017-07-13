@@ -22,7 +22,7 @@ app.use(cors())
 app.use(authMiddleware.checkTokenSetUser);
 
 
-app.use('/api/posts', authMiddleware.ensureLoggedIn, require('./routes/posts'))
+app.use('/api/posts', authMiddleware.allowAccess, require('./routes/posts'))
 app.use('/api/comments', require('./routes/comments'))
 app.use('/api/friends', require('./routes/friends'))
 app.use('/auth', require('./auth/index'))

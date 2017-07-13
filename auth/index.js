@@ -68,6 +68,7 @@ router.post('/signup', (req, res, next) => {
 
 router.post('/login', (req, res, next) => {
   if (validUsername(req.body)) {
+    console.log(req.body);
     queries.getOneByUsername(req.body.username)
       .then(person => {
         if (person) {
