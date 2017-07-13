@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser')
 var cors = require('cors')
 const app = express()
 
-var authMiddleware = require('./auth/middleware.js')
+var authMiddleware = require('./auth/middleware')
 
 if (process.env.NODE_ENV !== 'test') {
   const logger = require('morgan')

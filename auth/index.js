@@ -42,6 +42,7 @@ router.post('/signup', (req, res, next) => {
               }
               queries.create(person)
                 .then(id => {
+                  console.log('id', id);
                   jwt.sign({
                     id
                   }, process.env.TOKEN_SECRET, {
@@ -71,19 +72,14 @@ router.post('/login', (req, res, next) => {
       .then(person => {
         if (person) {
           bcrypt.compare(req.body.password, person.password)
-            .then((id) => {
-              if (id) {
-                jwt.sign({
-                  id
-                }, process.env.TOKEN_SECRET, {
-                  expiresIn: '1h'
-                }, (err, token) => {
-                  res.json({
-                    person,
-                    id,
-                    token,
-                    message: 'ok'
-                  })
+            .then((result) => {
+              if (result) {
+                let token = jwt.sign({ id: person.id }, process.env.TOKEN_SECRET, { expiresIn: '1h' })
+                console.log(token)
+                res.json({
+                  id: person.id,
+                  token,
+                  message: 'ok'
                 })
               } else {
                 next(new Error('Invalid login'))
