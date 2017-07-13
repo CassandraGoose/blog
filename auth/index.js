@@ -65,7 +65,6 @@ router.post('/signup', (req, res, next) => {
   }
 })
 
-
 router.post('/login', (req, res, next) => {
   if (validUsername(req.body)) {
     console.log(req.body);
@@ -75,7 +74,11 @@ router.post('/login', (req, res, next) => {
           bcrypt.compare(req.body.password, person.password)
             .then((result) => {
               if (result) {
-                let token = jwt.sign({ id: person.id }, process.env.TOKEN_SECRET, { expiresIn: '1h' })
+                let token = jwt.sign({
+                  id: person.id
+                }, process.env.TOKEN_SECRET, {
+                  expiresIn: '1h'
+                })
                 console.log(token)
                 res.json({
                   id: person.id,
